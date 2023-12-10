@@ -13,8 +13,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-
-	"github.com/aquasecurity/vuln-list-update/utils"
+	"github.com/vulndb/vuln-list-update/utils"
 )
 
 func TestDownloadToTempDir(t *testing.T) {

@@ -8,11 +8,10 @@ import (
 	"strings"
 
 	"github.com/spf13/afero"
+	"github.com/vulndb/vuln-list-update/git"
+	"github.com/vulndb/vuln-list-update/utils"
 	"golang.org/x/xerrors"
 	"gopkg.in/yaml.v2"
-
-	"github.com/aquasecurity/vuln-list-update/git"
-	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (

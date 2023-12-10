@@ -11,9 +11,8 @@ import (
 
 	pb "github.com/cheggaaa/pb/v3"
 	"github.com/spf13/afero"
+	"github.com/vulndb/vuln-list-update/utils"
 	"golang.org/x/xerrors"
-
-	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 var (

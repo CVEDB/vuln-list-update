@@ -14,9 +14,8 @@ import (
 	githubql "github.com/shurcooL/githubv4"
 	"github.com/shurcooL/graphql"
 	"github.com/spf13/afero"
+	"github.com/vulndb/vuln-list-update/utils"
 	"golang.org/x/xerrors"
-
-	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 // https://developer.github.com/v4/enum/securityadvisoryecosystem/

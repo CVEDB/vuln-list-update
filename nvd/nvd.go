@@ -13,9 +13,8 @@ import (
 
 	pb "github.com/cheggaaa/pb/v3"
 	jsonpointer "github.com/mattn/go-jsonpointer"
+	"github.com/vulndb/vuln-list-update/utils"
 	"golang.org/x/xerrors"
-
-	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 type NVD struct {

@@ -10,11 +10,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/vulndb/vuln-list-update/osv"
+	"github.com/vulndb/vuln-list-update/utils"
+	uu "github.com/vulndb/vuln-list-update/utils"
 	"golang.org/x/xerrors"
-
-	"github.com/aquasecurity/vuln-list-update/osv"
-	"github.com/aquasecurity/vuln-list-update/utils"
-	uu "github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (

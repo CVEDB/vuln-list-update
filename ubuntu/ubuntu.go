@@ -10,10 +10,9 @@ import (
 	"time"
 
 	"github.com/araddon/dateparse"
+	"github.com/vulndb/vuln-list-update/git"
+	"github.com/vulndb/vuln-list-update/utils"
 	"golang.org/x/xerrors"
-
-	"github.com/aquasecurity/vuln-list-update/git"
-	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (

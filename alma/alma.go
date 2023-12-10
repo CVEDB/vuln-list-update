@@ -11,9 +11,8 @@ import (
 	"time"
 
 	"github.com/cheggaaa/pb/v3"
+	"github.com/vulndb/vuln-list-update/utils"
 	"golang.org/x/xerrors"
-
-	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (

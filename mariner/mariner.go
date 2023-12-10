@@ -11,9 +11,8 @@ import (
 	"strings"
 
 	"github.com/cheggaaa/pb"
+	"github.com/vulndb/vuln-list-update/utils"
 	"golang.org/x/xerrors"
-
-	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (

@@ -12,8 +12,7 @@ import (
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-
-	"github.com/aquasecurity/vuln-list-update/wolfi"
+	"github.com/vulndb/vuln-list-update/wolfi"
 )
 
 var update = flag.Bool("update", false, "update golden files")

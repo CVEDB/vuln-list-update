@@ -6,10 +6,9 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/afero"
+	"github.com/vulndb/vuln-list-update/alpine"
+	"github.com/vulndb/vuln-list-update/utils"
 	"golang.org/x/xerrors"
-
-	"github.com/aquasecurity/vuln-list-update/alpine"
-	"github.com/aquasecurity/vuln-list-update/utils"
 )
 
 const (

@@ -10,8 +10,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-
-	"github.com/aquasecurity/vuln-list-update/arch"
+	"github.com/vulndb/vuln-list-update/arch"
 )
 
 func TestUpdate(t *testing.T) {
