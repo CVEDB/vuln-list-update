@@ -12,7 +12,7 @@
 Collect vulnerability information and save it in parsable format automatically
 
 ## Data
-https://github.com/aquasecurity/vuln-list/
+https://github.com/cvedb/vuln-list/
 
 ## Usage
 
