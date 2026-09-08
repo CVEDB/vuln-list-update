@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/khulnasoft-lab/vuln-list-update/schema/vulnerability-1.0.json",
+  "title": "Normalized vulnerability",
+  "type": "object",
+  "required": ["schema_version", "id", "source"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "id": { "type": "string", "minLength": 1 },
+    "aliases": { "type": "array", "items": { "type": "string" } },
+    "summary": { "type": "string" },
+    "details": { "type": "string" },
+    "severity": { "type": "array", "items": { "type": "object" } },
+    "affected": { "type": "array", "items": { "type": "object" } },
+    "references": { "type": "array", "items": { "type": "object" } },
+    "published": { "type": "string", "format": "date-time" },
+    "modified": { "type": "string", "format": "date-time" },
+    "withdrawn": { "type": "string", "format": "date-time" },
+    "source": {
+      "type": "object",
+      "required": ["name", "fetched_at"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" },
+        "fetched_at": { "type": "string", "format": "date-time" },
+        "revision": { "type": "string" },
+        "sha256": { "type": "string" }
+      }
+    },
+    "source_data": { "type": "object" }
+  }
+}

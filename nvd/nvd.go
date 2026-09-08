@@ -196,6 +196,10 @@ func TimeIntervals(endTime time.Time) ([]TimeInterval, error) {
 	if err != nil {
 		return nil, xerrors.Errorf("unable to get lastUpdatedDate: %w", err)
 	}
+	return timeIntervals(lastUpdatedDate, endTime), nil
+}
+
+func timeIntervals(lastUpdatedDate, endTime time.Time) []TimeInterval {
 	var intervals []TimeInterval
 	for endTime.Sub(lastUpdatedDate).Hours()/24 > 120 {
 		newLastUpdatedDate := lastUpdatedDate.Add(120 * 24 * time.Hour)
@@ -212,7 +216,7 @@ func TimeIntervals(endTime time.Time) ([]TimeInterval, error) {
 		LastModEndDate:   endTime.Format(time.RFC3339),
 	})
 
-	return intervals, nil
+	return intervals
 }
 
 func urlWithParams(baseUrl string, startIndex, resultsPerPage int, interval TimeInterval) (string, error) {

@@ -1,8 +1,10 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"log"
+	"path/filepath"
 
 	"golang.org/x/xerrors"
 
@@ -18,6 +20,10 @@ import (
 	"github.com/khulnasoft-lab/vuln-list-update/echo"
 	"github.com/khulnasoft-lab/vuln-list-update/eoldates"
 	"github.com/khulnasoft-lab/vuln-list-update/glad"
+	"github.com/khulnasoft-lab/vuln-list-update/internal/pipeline"
+	"github.com/khulnasoft-lab/vuln-list-update/internal/registry"
+	"github.com/khulnasoft-lab/vuln-list-update/internal/source"
+	"github.com/khulnasoft-lab/vuln-list-update/internal/storage"
 	"github.com/khulnasoft-lab/vuln-list-update/kevc"
 	"github.com/khulnasoft-lab/vuln-list-update/mariner"
 	"github.com/khulnasoft-lab/vuln-list-update/minimos"
@@ -41,7 +47,7 @@ import (
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
 		"redhat-csaf-vex, debian, ubuntu, amazon, bottlerocket, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
-		"chainguard, azure, openeuler, echo, minimos, eoldates, rootio)")
+		"chainguard, azure, openeuler, echo, minimos, eoldates, rootio, nvd-canonical, kevc-canonical, osv-canonical)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -65,6 +71,19 @@ func run() error {
 		u := nvd.NewUpdater()
 		if err := u.Update(); err != nil {
 			return xerrors.Errorf("NVD update error: %w", err)
+		}
+	case "nvd-canonical":
+	case "kevc-canonical", "osv-canonical":
+		adapter, err := registry.Canonical(*target)
+		if err != nil {
+			return err
+		}
+		state, _, err := pipeline.Run(context.Background(), adapter, source.State{}, storage.NewJSONWriter(filepath.Join(utils.VulnListDir(), "normalized")))
+		if err != nil {
+			return xerrors.Errorf("canonical %s update error: %w", *target, err)
+		}
+		if err := utils.SetLastUpdatedDate(*target, state.LastUpdated); err != nil {
+			return xerrors.Errorf("canonical %s checkpoint error: %w", *target, err)
 		}
 	case "redhat":
 		if err := securitydataapi.Update(); err != nil {

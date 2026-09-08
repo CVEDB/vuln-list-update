@@ -11,6 +11,14 @@
 
 Collect vulnerability information and save it in parsable format automatically
 
+## Architecture
+
+Source-specific collectors are being migrated behind a shared adapter contract. The
+normalized vulnerability model is versioned in `internal/model`, preserves source
+provenance, and is described by `internal/model/schema.json`. New collectors should
+separate fetching, normalization, validation, and storage so that source failures do
+not change the output contract.
+
 ## Data
 https://github.com/khulnasoft-lab/vuln-list/
 
@@ -20,7 +28,7 @@ https://github.com/khulnasoft-lab/vuln-list/
 $ vuln-list-update -h
 Usage of vuln-list-update:
   -target string
-        update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, azure, openeuler, echo, minimos, rootio, seal)
+      update target (nvd, nvd-canonical, alpine, alpine-unfixed, redhat, redhat-oval, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, osv-canonical, mariner, kevc, kevc-canonical, wolfi, chainguard, azure, openeuler, echo, minimos, rootio, seal)
   -target-branch string
     	alternative repository branch (only glad)
   -target-uri string
