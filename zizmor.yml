@@ -31,3 +31,11 @@ rules:
   # See: https://docs.zizmor.sh/audits/#self-repository
   self-repository:
     disable: true
+  # Ad-hoc package installs (git-filter-repo via apt-get) are necessary for repo maintenance.
+  # See: https://docs.zizmor.sh/audits/#adhoc-packages
+  adhoc-packages:
+    disable: true
+  # Self-hosted runners are not used.
+  # See: https://docs.zizmor.sh/audits/#self-hosted-runner
+  self-hosted-runner:
+    disable: true
