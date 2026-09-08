@@ -8,7 +8,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"golang.org/x/xerrors"
 
@@ -66,6 +65,13 @@ func NewDatabase(dir string, ecosystems map[string]Ecosystem) Database {
 	o := &options{
 		dir:        dir,
 		ecosystems: ecosystems,
+		ecosystemDirs: func() map[string]string {
+			dirs := make(map[string]string)
+			for name, eco := range ecosystems {
+				dirs[name] = eco.Dir
+			}
+			return dirs
+		}(),
 	}
 	return Database{options: o}
 }
@@ -86,17 +92,11 @@ func NewOsv(opts ...option) Database {
 
 func (osv *Database) Update() error {
 	ctx := context.Background()
-	for ecoSystem, ecoSystemDir := range osv.ecosystemDirs {
+	for ecoSystem, eco := range osv.ecosystems {
 		log.Printf("Updating OSV %s advisories", ecoSystem)
-		// Not all sources use ecosystem in the URL, so we check if it contains "%s" to format it.
-		url := osv.url
-		if strings.Contains(url, "%s") {
-			url = fmt.Sprintf(osv.url, ecoSystem)
-		}
-
-		tempDir, err := utils.DownloadToTempDir(ctx, url)
+		tempDir, err := utils.DownloadToTempDir(ctx, eco.URL)
 		if err != nil {
-			return xerrors.Errorf("failed to download %s: %w", fmt.Sprintf(osv.url, ecoSystem), err)
+			return xerrors.Errorf("failed to download %s: %w", eco.URL, err)
 		}
 
 		err = filepath.WalkDir(tempDir, func(path string, d fs.DirEntry, err error) error {
@@ -111,7 +111,7 @@ func (osv *Database) Update() error {
 					return xerrors.Errorf("unable to parse json %s: %w", path, err)
 				}
 
-				filePath := filepath.Join(osv.dir, ecoSystemDir, parsed.Affected[0].Package.Name, fmt.Sprintf("%s.json", parsed.ID))
+				filePath := filepath.Join(osv.dir, eco.Dir, parsed.Affected[0].Package.Name, fmt.Sprintf("%s.json", parsed.ID))
 				if err = utils.Write(filePath, parsed); err != nil {
 					return xerrors.Errorf("failed to write file: %w", err)
 				}
