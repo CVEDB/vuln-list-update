@@ -14,7 +14,7 @@ func TestAdapterNormalizesOSVAdvisory(t *testing.T) {
 		"id": "GO-2026-0001", "aliases": []string{"CVE-2026-0003"}, "summary": "Example issue",
 		"affected": []any{map[string]any{
 			"package": map[string]string{"ecosystem": "Go", "name": "example.com/project"},
-			"ranges": []any{map[string]any{"type": "SEMVER", "events": []any{map[string]string{"introduced": "0"}, map[string]string{"fixed": "1.2.3"}}}},
+			"ranges":  []any{map[string]any{"type": "SEMVER", "events": []any{map[string]string{"introduced": "0"}, map[string]string{"fixed": "1.2.3"}}}},
 		}},
 		"references": []any{map[string]string{"type": "WEB", "url": "https://example.test/advisory"}},
 	})

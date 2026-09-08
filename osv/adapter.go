@@ -15,13 +15,13 @@ import (
 )
 
 type Adapter struct {
-	url         string
-	ecosystems  map[string]string
+	url        string
+	ecosystems map[string]string
 }
 
 func NewAdapter() *Adapter {
 	return &Adapter{
-		url: securityTrackerURL,
+		url:        securityTrackerURL,
 		ecosystems: defaultEcosystemDirs,
 	}
 }
