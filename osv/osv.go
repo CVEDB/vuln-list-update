@@ -26,10 +26,16 @@ var defaultEcosystemDirs = map[string]string{
 	"crates.io": "rust",
 }
 
+type Ecosystem struct {
+	Dir string
+	URL string
+}
+
 type options struct {
 	url           string
 	dir           string
 	ecosystemDirs map[string]string
+	ecosystems    map[string]Ecosystem
 }
 
 type option func(*options)
@@ -54,6 +60,14 @@ func WithEcosystem(ecosystemDir map[string]string) option {
 	return func(opts *options) {
 		opts.ecosystemDirs = ecosystemDir
 	}
+}
+
+func NewDatabase(dir string, ecosystems map[string]Ecosystem) Database {
+	o := &options{
+		dir:        dir,
+		ecosystems: ecosystems,
+	}
+	return Database{options: o}
 }
 
 func NewOsv(opts ...option) Database {
