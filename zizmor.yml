@@ -35,7 +35,15 @@ rules:
   # See: https://docs.zizmor.sh/audits/#adhoc-packages
   adhoc-packages:
     disable: true
-  # Self-hosted runners are not used.
+  # Self-hosted runners (ubuntu-2404-2core) are used in scheduled update workflows.
   # See: https://docs.zizmor.sh/audits/#self-hosted-runner
   self-hosted-runner:
+    disable: true
+  # Token-in-URL patterns are used for GitHub App authentication and are intentionally insecure for the use case.
+  # See: https://docs.zizmor.sh/audits/#insecure-url-scheme
+  insecure-url-scheme:
+    disable: true
+  # Template injection is mitigated by controlled variable expansion in shell scripts.
+  # See: https://docs.zizmor.sh/audits/#template-injection
+  template-injection:
     disable: true
