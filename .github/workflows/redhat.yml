@@ -7,7 +7,7 @@ on:
 jobs:
   update:
     name: Update vuln-list-redhat
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-2404-2core
     env:
       GITHUB_TOKEN: ${{ secrets.ORG_REPO_TOKEN }}
       VULN_LIST_DIR: "vuln-list-redhat"
