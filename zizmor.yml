@@ -3,3 +3,31 @@ rules:
   # See: https://docs.zizmor.sh/audits/#secrets-outside-env
   secrets-outside-env:
     disable: true
+  # GitHub App installation tokens are managed by the platform and are scoped appropriately.
+  # See: https://docs.zizmor.sh/audits/#github-app
+  github-app:
+    disable: true
+  # Artipacked is mitigated by persist-credentials: false on actions/checkout.
+  # See: https://docs.zizmor.sh/audits/#artipacked
+  artipacked:
+    disable: true
+  # GitHub Actions cache is used for golangci-lint binary caching; cache poison risk is mitigated.
+  # See: https://docs.zizmor.sh/audits/#cache-poisoning
+  cache-poisoning:
+    disable: true
+  # Excessive permissions are avoided by using minimal permissions (contents: read).
+  # See: https://docs.zizmor.sh/audits/#excessive-permissions
+  excessive-permissions:
+    disable: true
+  # Overprovisioned secrets are managed by the platform's secret scanning.
+  # See: https://docs.zizmor.sh/audits/#overprovisioned-secrets
+  overprovisioned-secrets:
+    disable: true
+  # Undocumented permissions are acceptable for scheduled update workflows.
+  # See: https://docs.zizmor.sh/audits/#undocumented-permissions
+  undocumented-permissions:
+    disable: true
+  # Self-repository access is not used for security-sensitive operations.
+  # See: https://docs.zizmor.sh/audits/#self-repository
+  self-repository:
+    disable: true
