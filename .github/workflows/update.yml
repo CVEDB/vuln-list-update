@@ -26,17 +26,22 @@ jobs:
           sudo docker image prune --all --force > /dev/null
           df -h
 
+      - name: Check out code
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
         with:
           go-version-file: go.mod
 
       - name: Check out vuln-list repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
-          repository: ${{ github.repository_owner }}/vuln-list
-          token: ${{ secrets.ORG_REPO_TOKEN }}
+          repository: ${{ github.repository_owner }}/${{ env.VULN_LIST_DIR }}
           path: ${{ env.VULN_LIST_DIR }}
+          persist-credentials: false # update-source action mints a fresh token per push
 
       - name: Setup github user email and name
         run: |
