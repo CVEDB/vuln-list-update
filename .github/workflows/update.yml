@@ -41,6 +41,7 @@ jobs:
         with:
           repository: ${{ github.repository_owner }}/${{ env.VULN_LIST_DIR }}
           path: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           persist-credentials: false # update-source action mints a fresh token per push
 
       - name: Setup github user email and name
