@@ -23,6 +23,9 @@ inputs:
   commit-message:
     description: Commit message for the new commit.
     required: true
+  token:
+    description: Optional GitHub token used for the push. Falls back to the GitHub App installation token when not set.
+    required: false
 
 runs:
   using: composite
@@ -71,6 +74,7 @@ runs:
       shell: bash
       env:
         GH_APP_TOKEN: ${{ steps.token.outputs.token }}
+        PUSH_TOKEN: ${{ inputs.token != '' && inputs.token || steps.token.outputs.token }}
         OWNER: ${{ inputs.owner }}
         REPO: ${{ inputs.repository }}
         COMMIT_MSG: ${{ inputs.commit-message }}
@@ -78,7 +82,7 @@ runs:
         cd "$REPO"
         # actions/checkout may write an extraheader that overrides URL credentials; drop it so the refreshed token is used
         git config --local --unset-all http.https://github.com/.extraheader || true
-        git remote set-url origin "https://x-access-token:${GH_APP_TOKEN}@github.com/${OWNER}/${REPO}.git"
+        git remote set-url origin "https://x-access-token:${PUSH_TOKEN}@github.com/${OWNER}/${REPO}.git"
         pushed=$(git rev-parse HEAD)
         git add .
         git commit -m "${COMMIT_MSG}"

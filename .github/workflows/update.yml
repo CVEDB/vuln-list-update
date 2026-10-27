@@ -61,6 +61,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "Alpine Issue Tracker"
 
       - if: always()
@@ -72,6 +73,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "Alpine Secshfixes Tracker"
 
       - if: always()
@@ -83,6 +85,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "Ubuntu CVE Tracker"
 
       - if: always()
@@ -94,6 +97,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "Amazon Linux Security Center"
 
       - if: always()
@@ -105,6 +109,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "Bottlerocket Security Advisories"
 
       - if: always()
@@ -116,6 +121,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "Oracle Linux OVAL"
 
       - if: always()
@@ -127,6 +133,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "Photon Security Advisories"
 
       - if: always()
@@ -138,6 +145,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "CWE"
 
       - if: always()
@@ -149,6 +157,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "SUSE CVRF"
 
       - if: always()
@@ -160,6 +169,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "GitLab Advisory Database"
 
       - if: always()
@@ -171,6 +181,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "AlmaLinux Security Advisory"
 
       - if: always()
@@ -182,6 +193,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "Rocky Linux Security Advisory"
 
       - if: always()
@@ -193,6 +205,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "Azure Linux and CBL-Mariner Vulnerability Data"
 
       - if: always()
@@ -204,6 +217,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "OSV Database"
 
       - if: always()
@@ -215,6 +229,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "Wolfi Security Data"
 
       - if: always()
@@ -226,6 +241,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "Chainguard Security Data"
 
       - if: always()
@@ -237,6 +253,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "openEuler CVE Data"
 
       - if: always()
@@ -248,6 +265,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "Echo CVE Data"
 
       - if: always()
@@ -259,6 +277,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "Echo OSV Data"
 
       - if: always()
@@ -270,6 +289,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "MinimOS Security Data"
 
       - if: always()
@@ -281,6 +301,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "Seal Security Data"
 
       - if: always()
@@ -292,6 +313,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repository: ${{ env.VULN_LIST_DIR }}
+          token: ${{ secrets.ORG_REPO_TOKEN }}
           commit-message: "EOL dates"
 
      # - name: Microsoft Teams Notification
