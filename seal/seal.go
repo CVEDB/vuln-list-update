@@ -3,62 +3,62 @@ package seal
 import (
 	"path/filepath"
 
-	"github.com/khulnasoft-lab/vuln-list-update/osv"
-	"github.com/khulnasoft-lab/vuln-list-update/utils"
+	"github.com/cvedb/vuln-list-update/osv"
+	"github.com/cvedb/vuln-list-update/utils"
 )
 
 const (
-	securityTrackerURL = "https://vulnfeed.sealsecurity.io/v1/osv/renamed/vulnerabilities.zip"
-	sealDir            = "seal"
+	// renamedFeedURL holds advisories for packages that Seal renames
+	// (e.g. "seal-requests", "@seal-security/ajv").
+	renamedFeedURL = "https://vulnfeed.sealsecurity.io/v1/osv/renamed/vulnerabilities.zip"
+	// noPrefixFeedURL holds advisories for packages that keep their original
+	// name and only change the version (e.g. "requests" at "2.14.2+sp1").
+	noPrefixFeedURL = "https://vulnfeed.sealsecurity.io/v1/osv/vulnerabilities.zip"
+	sealDir         = "seal"
 )
 
-// Seal uses single archive for all ecosystems, so we use a single ecosystem and single dir.
-var ecosystems = map[string]string{"seal": ""}
+// The two feeds are stored in their own subdirectories so they don't overwrite
+// each other when the osv package clears a directory before each update. Trivy
+// reads the whole seal/ tree, so the split is transparent to it.
+var ecosystems = map[string]osv.Ecosystem{
+	"seal-renamed": {
+		Dir: filepath.Join(sealDir, "renamed"),
+		URL: renamedFeedURL,
+	},
+	"seal-noprefix": {
+		Dir: filepath.Join(sealDir, "noprefix"),
+		URL: noPrefixFeedURL,
+	},
+}
 
 type options struct {
-	url string
-	dir string
+	dir        string
+	ecosystems map[string]osv.Ecosystem
 }
 
-type option func(*options)
+type Option func(*options)
 
-type Database struct {
-	osv.Database
-}
-
-func WithURL(url string) option {
-	return func(opts *options) {
-		opts.url = url
-	}
-}
-
-func WithDir(dir string) option {
+func WithDir(dir string) Option {
 	return func(opts *options) {
 		opts.dir = dir
 	}
 }
 
-func NewSeal(opts ...option) Database {
+func WithEcosystems(ecosystems map[string]osv.Ecosystem) Option {
+	return func(opts *options) {
+		opts.ecosystems = ecosystems
+	}
+}
+
+func NewSeal(opts ...Option) osv.Database {
 	o := &options{
-		url: securityTrackerURL,
-		dir: filepath.Join(utils.VulnListDir(), sealDir),
+		dir:        utils.VulnListDir(),
+		ecosystems: ecosystems,
 	}
 
 	for _, opt := range opts {
 		opt(o)
 	}
 
-	db := osv.NewOsv(
-		osv.WithURL(o.url),
-		osv.WithDir(o.dir),
-		osv.WithEcosystem(ecosystems),
-	)
-
-	return Database{
-		Database: db,
-	}
-}
-
-func (seal *Database) Update() error {
-	return seal.Database.Update()
+	return osv.NewDatabase(o.dir, o.ecosystems)
 }

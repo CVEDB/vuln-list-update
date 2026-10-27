@@ -2,32 +2,33 @@
 
 [![Go Report Card][report-card-img]][report-card]
 [![License][license-img]][license]
-[![Update vuln-list repo](https://github.com/khulnasoft-lab/vuln-list-update/actions/workflows/update.yml/badge.svg)](https://github.com/khulnasoft-lab/vuln-list-update/actions/workflows/update.yml)
+[![Update vuln-list repo](https://github.com/cvedb/vuln-list-update/actions/workflows/update.yml/badge.svg)](https://github.com/cvedb/vuln-list-update/actions/workflows/update.yml)
 
-[report-card-img]: https://goreportcard.com/badge/github.com/khulnasoft-lab/vuln-list-update
-[report-card]: https://goreportcard.com/report/github.com/khulnasoft-lab/vuln-list-update
+[report-card-img]: https://goreportcard.com/badge/github.com/cvedb/vuln-list-update
+[report-card]: https://goreportcard.com/report/github.com/cvedb/vuln-list-update
 [license-img]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-[license]: https://github.com/khulnasoft-lab/vuln-list-update/blob/main/LICENSE
+[license]: https://github.com/cvedb/vuln-list-update/blob/main/LICENSE
 
-Collect vulnerability information and save it in parsable format automatically
+Automatically collect vulnerability information and save it in a parseable format.
 
-## Data
-https://github.com/khulnasoft-lab/vuln-list/
+Collected data is stored in the [vuln-list repository](https://github.com/cvedb/vuln-list/).
 
 ## Usage
 
-```
+Run `vuln-list-update -h` to display the available options:
+
+```text
 $ vuln-list-update -h
 Usage of vuln-list-update:
   -target string
-        update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, azure, openeuler, echo, minimos, rootio, seal)
+        update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, debian, ubuntu, amazon, bottlerocket, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, azure, openeuler, echo, echo-osv, minimos, rootio, seal)
   -target-branch string
-    	alternative repository branch (only glad)
+        alternative repository branch (only glad)
   -target-uri string
-    	alternative repository URI (only glad)
+        alternative repository URI (only glad)
   -years string
-    	update years (only redhat)
+        update years (only redhat)
 ```
 
 ## Author
-Md Sualaiman(sys.developer)
+khulnaSoft (khulnasoft)

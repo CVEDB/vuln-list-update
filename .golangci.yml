@@ -41,7 +41,7 @@ formatters:
       sections:
         - standard
         - default
-        - prefix(github.com/khulnasoft-lab/)
+        - prefix(github.com/cvedb/)
         - blank
         - dot
   exclusions:

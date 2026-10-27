@@ -11,7 +11,7 @@ import (
 	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
 
-	"github.com/khulnasoft-lab/vuln-list-update/utils"
+	"github.com/cvedb/vuln-list-update/utils"
 )
 
 const fullEOLDatesURL = "https://endoflife.date/api/v1/products/full"
@@ -36,6 +36,7 @@ var (
 		"sles",
 		"ubuntu",
 		"wolfi-linux", // wolfi doesn't have OS versions (there is no EOL dates)
+		"suse-linux-micro",
 	}
 
 	missedOSes = map[string][]Release{

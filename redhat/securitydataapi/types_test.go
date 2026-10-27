@@ -8,7 +8,7 @@ import (
 
 	"github.com/kylelemons/godebug/pretty"
 
-	"github.com/khulnasoft-lab/vuln-list-update/redhat/securitydataapi"
+	"github.com/cvedb/vuln-list-update/redhat/securitydataapi"
 )
 
 func TestRedhatCVEJSON_UnmarshalJSON(t *testing.T) {

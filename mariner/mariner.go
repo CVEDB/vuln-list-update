@@ -13,7 +13,7 @@ import (
 	"github.com/cheggaaa/pb"
 	"golang.org/x/xerrors"
 
-	"github.com/khulnasoft-lab/vuln-list-update/utils"
+	"github.com/cvedb/vuln-list-update/utils"
 )
 
 const (
@@ -166,7 +166,7 @@ func (c Config) update(version, path string, isAzureLinux bool) error {
 }
 func (c Config) saveAdvisoryPerYear(dirName string, def Definition) error {
 	// Use advisory_id for file name to avoid overwriting files when there are 2 definitions for same CVE
-	// cf. https://github.com/khulnasoft-lab/trivy-db/issues/379
+	// cf. https://github.com/cvedb/trivy-db/issues/379
 	fileName := fmt.Sprintf("%s.json", AdvisoryID(def))
 
 	vulnID := def.Metadata.Reference.RefID
@@ -192,7 +192,7 @@ func (c Config) saveAdvisoryPerYear(dirName string, def Definition) error {
 // If `advisory_id` field does not exist, create this field yourself using the Azure Linux format.
 //
 // Azure Linux uses `<number_after_last_colon_from_id>-<last_number_from_version>` format for `advisory_id`.
-// cf. https://github.com/khulnasoft-lab/vuln-list-update/pull/271#issuecomment-2111678641
+// cf. https://github.com/cvedb/vuln-list-update/pull/271#issuecomment-2111678641
 // e.g.
 //   - `id="oval:com.microsoft.cbl-mariner:def:27423" version="2000000001"` => `27423-1`
 //   - `id="oval:com.microsoft.cbl-mariner:def:11073" version="2000000000"` => `11073`

@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/khulnasoft-lab/vuln-list-update/chainguard"
+	"github.com/cvedb/vuln-list-update/chainguard"
 )
 
 var update = flag.Bool("update", false, "update golden files")

@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/khulnasoft-lab/vuln-list-update/photon"
+	"github.com/cvedb/vuln-list-update/photon"
 )
 
 var update = flag.Bool("update", false, "update golden files")
@@ -49,6 +49,7 @@ func TestConfig_Update(t *testing.T) {
 				"/tmp/photon/3.0/apache-tomcat/CVE-2019-0199.json":  "testdata/golden/CVE-2019-0199.json",
 				"/tmp/photon/3.0/apache-tomcat/CVE-2019-10072.json": "testdata/golden/CVE-2019-10072.json",
 				"/tmp/photon/3.0/binutils/CVE-2017-16826.json":      "testdata/golden/CVE-2017-16826.json",
+				"/tmp/photon/3.0/curl/CVE-2025-0725.json":           "testdata/golden/CVE-2025-0725.json",
 			},
 		},
 		{
@@ -69,7 +70,7 @@ func TestConfig_Update(t *testing.T) {
 				"/photon_cve_metadata/cve_data_photon3.0.json": "testdata/cve_data_photon3.0.json",
 			},
 			goldenFiles:      map[string]string{},
-			expectedErrorMsg: "unable to create a directory: operation not permitted",
+			expectedErrorMsg: "failed to remove Photon 1.0 directory: operation not permitted",
 		},
 		{
 			name:             "404",
@@ -127,6 +128,7 @@ func TestConfig_Update(t *testing.T) {
 				"/tmp/photon/3.0/apache-tomcat/CVE-2019-0199.json":  "testdata/golden/CVE-2019-0199.json",
 				"/tmp/photon/3.0/apache-tomcat/CVE-2019-10072.json": "testdata/golden/CVE-2019-10072.json",
 				"/tmp/photon/3.0/binutils/CVE-2017-16826.json":      "testdata/golden/CVE-2017-16826.json",
+				"/tmp/photon/3.0/curl/CVE-2025-0725.json":           "testdata/golden/CVE-2025-0725.json",
 			},
 		},
 	}

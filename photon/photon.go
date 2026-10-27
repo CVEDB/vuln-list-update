@@ -11,11 +11,11 @@ import (
 	"github.com/spf13/afero"
 	"golang.org/x/xerrors"
 
-	"github.com/khulnasoft-lab/vuln-list-update/utils"
+	"github.com/cvedb/vuln-list-update/utils"
 )
 
 const (
-	advisoryURL    = "https://packages.vmware.com/photon/photon_cve_metadata/"
+	advisoryURL    = "https://packages.broadcom.com/photon/photon_cve_metadata/"
 	versionsFile   = "photon_versions.json"
 	advisoryFormat = "cve_data_photon%s.json"
 
@@ -72,6 +72,11 @@ func (c Config) Update() error {
 			return xerrors.Errorf("failed to unmarshal Photon advisory: %w", err)
 		}
 		dir := filepath.Join(photonDir, version)
+		dirPath := filepath.Join(c.VulnListDir, dir)
+		log.Printf("Remove Photon %s directory %s", version, dirPath)
+		if err := c.AppFs.RemoveAll(dirPath); err != nil {
+			return xerrors.Errorf("failed to remove Photon %s directory: %w", version, err)
+		}
 
 		bar := pb.StartNew(len(cves))
 		for _, def := range cves {
@@ -87,9 +92,19 @@ func (c Config) Update() error {
 	return nil
 }
 
-func (c Config) saveCVEPerPkg(dirName, pkgName, cveID string, data interface{}) error {
+func (c Config) saveCVEPerPkg(dirName, pkgName, cveID string, cve PhotonCVE) error {
 	if cveID == "" {
 		log.Printf("CVE-ID is empty")
+		return nil
+	}
+
+	// Only skip unknown CVE entries (IDs starting with "UNK-" or "Re") that lack version information.
+	// Valid CVEs (e.g., "CVE-...") with both ResVer and AffVer as "NA" are still saved,
+	// as their status (e.g., "Not Affected") may be meaningful for reporting.
+	if (strings.HasPrefix(cveID, "UNK-") || cveID == "Re") &&
+		(cve.ResVer == "" || cve.ResVer == "NA") &&
+		(cve.AffVer == "" || cve.AffVer == "NA") {
+		log.Printf("Skip unknown CVE entry: %s", cveID)
 		return nil
 	}
 
@@ -101,7 +116,7 @@ func (c Config) saveCVEPerPkg(dirName, pkgName, cveID string, data interface{}) 
 
 	pkgDir := filepath.Join(c.VulnListDir, dirName, pkgName)
 	fileName := fmt.Sprintf("%s.json", cveID)
-	if err := utils.WriteJSON(c.AppFs, pkgDir, fileName, data); err != nil {
+	if err := utils.WriteJSON(c.AppFs, pkgDir, fileName, cve); err != nil {
 		return xerrors.Errorf("failed to write file: %w", err)
 	}
 	return nil

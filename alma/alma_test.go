@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/xerrors"
 
-	"github.com/khulnasoft-lab/vuln-list-update/alma"
+	"github.com/cvedb/vuln-list-update/alma"
 )
 
 func TestUpdate(t *testing.T) {
