@@ -25,9 +25,6 @@ jobs:
           sudo rm -rf /opt/hostedtoolcache/CodeQL
           sudo docker image prune --all --force > /dev/null
           df -h
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v5
 
       - name: Set up Go
         uses: actions/setup-go@v5
