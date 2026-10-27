@@ -41,7 +41,7 @@ import (
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
 		"redhat-csaf-vex, debian, ubuntu, amazon, bottlerocket, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
-		"chainguard, azure, openeuler, echo, echo-osv, minimos, eoldates, rootio)")
+		"chainguard, azure, openeuler, echo, echo-osv, minimos, eoldates, rootio, seal, alma, rocky)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
