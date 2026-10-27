@@ -10,7 +10,7 @@ import (
 	"github.com/cheggaaa/pb/v3"
 	"golang.org/x/xerrors"
 
-	"github.com/khulnasoft-lab/vuln-list-update/utils"
+	"github.com/cvedb/vuln-list-update/utils"
 )
 
 const (

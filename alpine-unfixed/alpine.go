@@ -10,12 +10,12 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/khulnasoft-lab/vuln-list-update/utils"
+	"github.com/cvedb/vuln-list-update/utils"
 )
 
 const (
 	alpineDir = "alpine-unfixed"
-	secFixUrl = "https://khulnasoft-lab.github.io/secfixes-tracker/all.tar.gz"
+	secFixUrl = "https://cvedb.github.io/secfixes-tracker/all.tar.gz"
 )
 
 type Updater struct {

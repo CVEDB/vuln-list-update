@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/xerrors"
 
-	"github.com/khulnasoft-lab/vuln-list-update/amazon"
+	"github.com/cvedb/vuln-list-update/amazon"
 )
 
 func TestConfig_Update(t *testing.T) {

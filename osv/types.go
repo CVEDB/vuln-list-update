@@ -1,12 +1,21 @@
 package osv
 
+type Ecosystem struct {
+	Dir string
+	URL string
+	// Exclude is an optional predicate to drop individual Affected entries.
+	// Entries for which it returns true are removed from the written output.
+	// Files that end up with no remaining Affected entries are skipped entirely.
+	Exclude func(Affected) bool
+}
+
 type Affected struct {
-	Package    Package     `json:"package,omitempty"`
-	Severities []Severity  `json:"severity,omitempty"`
-	Ranges     []Range     `json:"ranges,omitempty"`
-	Versions   []string    `json:"versions,omitempty"`
-	Ecosystem  interface{} `json:"ecosystem_specific,omitempty"` //The meaning of the values within the object is entirely defined by the ecosystem
-	Database   interface{} `json:"database_specific,omitempty"`  //The meaning of the values within the object is entirely defined by the database
+	Package    Package    `json:"package,omitempty"`
+	Severities []Severity `json:"severity,omitempty"`
+	Ranges     []Range    `json:"ranges,omitempty"`
+	Versions   []string   `json:"versions,omitempty"`
+	Ecosystem  any        `json:"ecosystem_specific,omitempty"` //The meaning of the values within the object is entirely defined by the ecosystem
+	Database   any        `json:"database_specific,omitempty"`  //The meaning of the values within the object is entirely defined by the database
 
 }
 
@@ -44,6 +53,7 @@ type OSV struct {
 	Modified   string      `json:"modified,omitempty"`
 	Published  string      `json:"published,omitempty"`
 	Withdrawn  string      `json:"withdrawn,omitempty"`
+	Upstream   []string    `json:"upstream,omitempty"`
 	Aliases    []string    `json:"aliases,omitempty"`
 	Related    []string    `json:"related,omitempty"`
 	Summary    string      `json:"summary,omitempty"`

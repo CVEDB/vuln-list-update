@@ -12,19 +12,26 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/cheggaaa/pb/v3"
 	"golang.org/x/xerrors"
 
-	"github.com/khulnasoft-lab/vuln-list-update/utils"
+	"github.com/cvedb/vuln-list-update/utils"
 )
 
 const (
 	trackerDir         = "tracker"
 	securityTrackerURL = "https://salsa.debian.org/security-tracker-team/security-tracker/-/archive/master/security-tracker-master.tar.gz//security-tracker-master"
 	sourcesURL         = "https://ftp.debian.org/debian/dists/%s/%s/source/Sources.gz"
-	securitySourcesURL = "https://security.debian.org/debian-security/dists/%s/updates/%s/source/Sources.gz"
+	securitySourcesURL = "https://security.debian.org/debian-security/dists/%s-security/updates/%s/source/Sources.xz"
 )
+
+// trackerRetry is the number of retries after the first failed attempt.
+const trackerRetry = 3
+
+// trackerRetryWait is the pause between attempts; a var so tests can shorten it.
+var trackerRetryWait = 30 * time.Second
 
 var (
 	repos = []string{
@@ -115,7 +122,7 @@ func (c Client) Update() error {
 	}
 
 	log.Println("Fetching Debian data...")
-	tmpDir, err := utils.DownloadToTempDir(ctx, c.trackerURL)
+	tmpDir, err := c.downloadTracker(ctx)
 	if err != nil {
 		return xerrors.Errorf("failed to retrieve Debian Security Tracker: %w", err)
 	}
@@ -150,6 +157,23 @@ func (c Client) Update() error {
 	}
 
 	return nil
+}
+
+// downloadTracker downloads the Security Tracker archive, retrying on failure:
+// salsa.debian.org sometimes drops the connection mid-transfer for a minute or two.
+func (c Client) downloadTracker(ctx context.Context) (string, error) {
+	var err error
+	for i := 0; i <= trackerRetry; i++ {
+		if i > 0 {
+			log.Printf("Failed to download Debian Security Tracker: %s. Retrying in %s...", err, trackerRetryWait)
+			time.Sleep(trackerRetryWait)
+		}
+		var tmpDir string
+		if tmpDir, err = utils.DownloadToTempDir(ctx, c.trackerURL); err == nil {
+			return tmpDir, nil
+		}
+	}
+	return "", err
 }
 
 func (c Client) update(dirname string, bugs []Bug) error {

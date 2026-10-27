@@ -1,51 +1,47 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"log"
-	"os"
 
-	githubql "github.com/shurcooL/githubv4"
-	"golang.org/x/oauth2"
 	"golang.org/x/xerrors"
 
-	"github.com/khulnasoft-lab/vuln-list-update/alma"
-	"github.com/khulnasoft-lab/vuln-list-update/alpine"
-	alpineunfixed "github.com/khulnasoft-lab/vuln-list-update/alpine-unfixed"
-	"github.com/khulnasoft-lab/vuln-list-update/amazon"
-	arch_linux "github.com/khulnasoft-lab/vuln-list-update/arch"
-	"github.com/khulnasoft-lab/vuln-list-update/chainguard"
-	"github.com/khulnasoft-lab/vuln-list-update/cwe"
-	"github.com/khulnasoft-lab/vuln-list-update/debian/tracker"
-	"github.com/khulnasoft-lab/vuln-list-update/echo"
-	"github.com/khulnasoft-lab/vuln-list-update/eoldates"
-	"github.com/khulnasoft-lab/vuln-list-update/ghsa"
-	"github.com/khulnasoft-lab/vuln-list-update/glad"
-	"github.com/khulnasoft-lab/vuln-list-update/kevc"
-	"github.com/khulnasoft-lab/vuln-list-update/mariner"
-	"github.com/khulnasoft-lab/vuln-list-update/minimos"
-	"github.com/khulnasoft-lab/vuln-list-update/nvd"
-	"github.com/khulnasoft-lab/vuln-list-update/openeuler"
-	oracleoval "github.com/khulnasoft-lab/vuln-list-update/oracle/oval"
-	"github.com/khulnasoft-lab/vuln-list-update/osv"
-	"github.com/khulnasoft-lab/vuln-list-update/photon"
-	redhatcsafvex "github.com/khulnasoft-lab/vuln-list-update/redhat/csaf"
-	redhatoval "github.com/khulnasoft-lab/vuln-list-update/redhat/oval"
-	"github.com/khulnasoft-lab/vuln-list-update/redhat/securitydataapi"
-	"github.com/khulnasoft-lab/vuln-list-update/rocky"
-	"github.com/khulnasoft-lab/vuln-list-update/rootio"
-	"github.com/khulnasoft-lab/vuln-list-update/seal"
-	susecvrf "github.com/khulnasoft-lab/vuln-list-update/suse/cvrf"
-	"github.com/khulnasoft-lab/vuln-list-update/ubuntu"
-	"github.com/khulnasoft-lab/vuln-list-update/utils"
-	"github.com/khulnasoft-lab/vuln-list-update/wolfi"
+	"github.com/cvedb/vuln-list-update/alma"
+	"github.com/cvedb/vuln-list-update/alpine"
+	alpineunfixed "github.com/cvedb/vuln-list-update/alpine-unfixed"
+	"github.com/cvedb/vuln-list-update/amazon"
+	arch_linux "github.com/cvedb/vuln-list-update/arch"
+	"github.com/cvedb/vuln-list-update/bottlerocket"
+	"github.com/cvedb/vuln-list-update/chainguard"
+	"github.com/cvedb/vuln-list-update/cwe"
+	"github.com/cvedb/vuln-list-update/debian/tracker"
+	"github.com/cvedb/vuln-list-update/echo"
+	"github.com/cvedb/vuln-list-update/eoldates"
+	"github.com/cvedb/vuln-list-update/glad"
+	"github.com/cvedb/vuln-list-update/kevc"
+	"github.com/cvedb/vuln-list-update/mariner"
+	"github.com/cvedb/vuln-list-update/minimos"
+	"github.com/cvedb/vuln-list-update/nvd"
+	"github.com/cvedb/vuln-list-update/openeuler"
+	oracleoval "github.com/cvedb/vuln-list-update/oracle/oval"
+	"github.com/cvedb/vuln-list-update/osvdev"
+	"github.com/cvedb/vuln-list-update/photon"
+	redhatcsafvex "github.com/cvedb/vuln-list-update/redhat/csaf"
+	redhatoval "github.com/cvedb/vuln-list-update/redhat/oval"
+	"github.com/cvedb/vuln-list-update/redhat/securitydataapi"
+	"github.com/cvedb/vuln-list-update/rocky"
+	"github.com/cvedb/vuln-list-update/rootio"
+	"github.com/cvedb/vuln-list-update/seal"
+	susecvrf "github.com/cvedb/vuln-list-update/suse/cvrf"
+	"github.com/cvedb/vuln-list-update/ubuntu"
+	"github.com/cvedb/vuln-list-update/utils"
+	"github.com/cvedb/vuln-list-update/wolfi"
 )
 
 var (
 	target = flag.String("target", "", "update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, "+
-		"redhat-csaf-vex, debian, ubuntu, amazon, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, "+
-		"chainguard, azure, openeuler, echo, minimos, eoldates, rootio)")
+		"redhat-csaf-vex, debian, ubuntu, amazon, bottlerocket, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, "+
+		"chainguard, azure, openeuler, echo, echo-osv, minimos, eoldates, rootio)")
 	vulnListDir  = flag.String("vuln-list-dir", "", "vuln-list dir")
 	targetUri    = flag.String("target-uri", "", "alternative repository URI (only glad)")
 	targetBranch = flag.String("target-branch", "", "alternative repository branch (only glad)")
@@ -108,6 +104,11 @@ func run() error {
 		if err := ac.Update(); err != nil {
 			return xerrors.Errorf("Amazon Linux update error: %w", err)
 		}
+	case "bottlerocket":
+		bc := bottlerocket.NewConfig()
+		if err := bc.Update(); err != nil {
+			return xerrors.Errorf("Bottlerocket update error: %w", err)
+		}
 	case "oracle-oval":
 		oc := oracleoval.NewConfig()
 		if err := oc.Update(); err != nil {
@@ -122,16 +123,6 @@ func run() error {
 		pc := photon.NewConfig()
 		if err := pc.Update(); err != nil {
 			return xerrors.Errorf("Photon update error: %w", err)
-		}
-	case "ghsa":
-		src := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
-		)
-		httpClient := oauth2.NewClient(context.Background(), src)
-
-		gc := ghsa.NewConfig(githubql.NewClient(httpClient))
-		if err := gc.Update(); err != nil {
-			return xerrors.Errorf("GitHub Security Advisory update error: %w", err)
 		}
 	case "glad":
 		gu := glad.NewUpdater(*targetUri, *targetBranch)
@@ -158,8 +149,8 @@ func run() error {
 		if err := rc.Update(); err != nil {
 			return xerrors.Errorf("Rocky Linux update error: %w", err)
 		}
-	case "osv":
-		p := osv.NewOsv()
+	case "osvdev":
+		p := osvdev.NewDatabase()
 		if err := p.Update(); err != nil {
 			return xerrors.Errorf("OSV update error: %w", err)
 		}
@@ -192,6 +183,11 @@ func run() error {
 		ec := echo.NewUpdater()
 		if err := ec.Update(); err != nil {
 			return xerrors.Errorf("Echo CVE update error: %w", err)
+		}
+	case "echo-osv":
+		eu := echo.NewOSVUpdater()
+		if err := eu.Update(); err != nil {
+			return xerrors.Errorf("Echo OSV update error: %w", err)
 		}
 	case "minimos":
 		mu := minimos.NewUpdater()
