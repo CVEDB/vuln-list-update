@@ -21,14 +21,24 @@ Run `vuln-list-update -h` to display the available options:
 $ vuln-list-update -h
 Usage of vuln-list-update:
   -target string
-        update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, debian, ubuntu, amazon, bottlerocket, oracle-oval, suse-cvrf, photon, arch-linux, ghsa, glad, cwe, osv, mariner, kevc, wolfi, chainguard, azure, openeuler, echo, echo-osv, minimos, rootio, seal)
+        update target (nvd, alpine, alpine-unfixed, redhat, redhat-oval, redhat-csaf-vex, debian, ubuntu, amazon, bottlerocket, oracle-oval, suse-cvrf, photon, arch-linux, glad, cwe, osvdev, mariner, kevc, wolfi, chainguard, azure, openeuler, echo, echo-osv, minimos, eoldates, rootio, seal, alma, rocky)
+  -vuln-list-dir string
+        vuln-list dir
   -target-branch string
         alternative repository branch (only glad)
   -target-uri string
         alternative repository URI (only glad)
-  -years string
-        update years (only redhat)
 ```
+
+## Project layout
+
+- `main.go` parses CLI options and dispatches each `-target` to an updater.
+- Source-specific packages live at the repository root, for example `alpine/`, `ubuntu/`, and `nvd/`. Related implementations are grouped by format or API under directories such as `debian/tracker/`, `redhat/`, `oracle/oval/`, and `suse/cvrf/`.
+- `utils/` contains shared download, filesystem, and repository helpers. `osv/` contains shared OSV types; `osvdev/` is the OSV data updater.
+- Tests and their fixtures are kept beside each package, typically in `*_test.go` and `testdata/` (including golden files).
+- `scripts/` contains repository scripts, while `.github/` contains GitHub automation.
+
+Run `go test -race ./...` to test all packages, or use `make test` and `make build`.
 
 ## Author
 khulnaSoft (khulnasoft)
